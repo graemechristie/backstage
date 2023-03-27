@@ -58,18 +58,10 @@ const DEFAULT_PROXY_PATH_BASE = '/octopus-deploy';
 
 /** @public */
 export interface OctopusDeployApi {
-<<<<<<< HEAD
   getReleaseProgression(opts: {
     projectReference: ProjectReference;
     releaseHistoryCount: number;
   }): Promise<OctopusProgression>;
-=======
-  getReleaseProgression(
-    projectId: string,
-    spaceId: string | null,
-    releaseHistoryCount: number,
-  ): Promise<OctopusProgression>;
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
 }
 
 /** @public */
@@ -88,20 +80,11 @@ export class OctopusDeployClient implements OctopusDeployApi {
     this.proxyPathBase = options.proxyPathBase ?? DEFAULT_PROXY_PATH_BASE;
   }
 
-<<<<<<< HEAD
   async getReleaseProgression(opts: {
     projectReference: ProjectReference;
     releaseHistoryCount: number;
   }): Promise<OctopusProgression> {
     const url = await this.getApiUrl(opts);
-=======
-  async getReleaseProgression(
-    projectId: string,
-    spaceId: string | null,
-    releaseHistoryCount: number,
-  ): Promise<OctopusProgression> {
-    const url = await this.getApiUrl(projectId, spaceId, releaseHistoryCount);
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
 
     const response = await this.fetchApi.fetch(url);
 
@@ -115,8 +98,7 @@ export class OctopusDeployClient implements OctopusDeployApi {
 
     if (response.status !== 200) {
       throw new Error(
-        `Error communicating with Octopus Deploy: ${
-          responseJson?.error?.title || response.statusText
+        `Error communicating with Octopus Deploy: ${responseJson?.error?.title || response.statusText
         }`,
       );
     }
@@ -124,23 +106,14 @@ export class OctopusDeployClient implements OctopusDeployApi {
     return responseJson;
   }
 
-<<<<<<< HEAD
   private async getApiUrl(opts: {
     projectReference: ProjectReference;
     releaseHistoryCount: number;
   }) {
-=======
-  private async getApiUrl(
-    projectId: string,
-    spaceId: string | null,
-    releaseHistoryCount: number,
-  ) {
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
     const proxyUrl = await this.discoveryApi.getBaseUrl('proxy');
     const queryParameters = new URLSearchParams({
       releaseHistoryCount: opts.releaseHistoryCount.toString(),
     });
-<<<<<<< HEAD
     if (opts.projectReference.spaceId !== undefined) {
       return `${proxyUrl}${this.proxyPathBase}/${encodeURIComponent(
         opts.projectReference.spaceId,
@@ -149,14 +122,6 @@ export class OctopusDeployClient implements OctopusDeployApi {
       )}/progression?${queryParameters}`;
     }
 
-=======
-    if (spaceId !== null)
-      return `${proxyUrl}${this.proxyPathBase}/${encodeURIComponent(
-        spaceId,
-      )}/projects/${encodeURIComponent(
-        projectId,
-      )}/progression?${queryParameters}`;
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
     return `${proxyUrl}${this.proxyPathBase}/projects/${encodeURIComponent(
       opts.projectReference.projectId,
     )}/progression?${queryParameters}`;

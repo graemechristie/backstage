@@ -59,10 +59,7 @@
     "@backstage/plugin-microsoft-calendar": "workspace:^",
     "@backstage/plugin-newrelic": "workspace:^",
     "@backstage/plugin-newrelic-dashboard": "workspace:^",
-<<<<<<< HEAD
     "@backstage/plugin-nomad": "workspace:^",
-=======
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
     "@backstage/plugin-octopus-deploy": "workspace:^",
     "@backstage/plugin-org": "workspace:^",
     "@backstage/plugin-pagerduty": "workspace:^",

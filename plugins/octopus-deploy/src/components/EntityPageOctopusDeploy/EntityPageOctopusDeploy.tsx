@@ -16,6 +16,7 @@
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useReleases } from '../../hooks/useReleases';
 import { getProjectReferenceAnnotationFromEntity } from '../../utils/getAnnotationFromEntity';
+
 import React from 'react';
 import { ReleaseTable } from '../ReleaseTable';
 
@@ -26,7 +27,6 @@ export const EntityPageOctopusDeploy = (props: { defaultLimit?: number }) => {
 
   const { environments, releases, loading, error } = useReleases(
     projectReference.projectId,
-    projectReference.spaceId,
     props.defaultLimit ?? 3,
     projectReference.spaceId,
   );

@@ -40,10 +40,3 @@ export function getProjectReferenceAnnotationFromEntity(
   }
   return { projectId: referencedProject[0] };
 }
-
-export function getSpaceIdAnnotationFromEntity(entity: Entity): string | null {
-  const annotation =
-    entity.metadata.annotations?.[OCTOPUS_DEPLOY_SPACE_ID_ANNOTATION];
-
-  return annotation || null;
-}

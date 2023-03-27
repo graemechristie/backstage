@@ -42,11 +42,7 @@ const cicdContent = (
 )
 ```
 
-<<<<<<< HEAD
-3. Add `octopus.com/project-id` annotation in the catalog descriptor file.
-=======
 3. Add `octopus.com/project-id` and optionally an `octopus.com/space-id` annotation in the catalog descriptor file.
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
 
 To obtain a projects ID you will have to query the Octopus API. You can get the space ID from the projects url in the octopus deploy UI. In the future we'll add support for using a projects slug as well.
 
@@ -62,7 +58,6 @@ spec:
   type: service
 ```
 
-<<<<<<< HEAD
 If your project is not part of the default space you can add the space ID to the annotation as a prefix. For example:
 
 ```
@@ -79,6 +74,4 @@ spec:
 
 You can get the ID of the space from the URL in the Octopus Deploy UI.
 
-=======
->>>>>>> 164c90b5ac22 (Added support for spaces to Octopus Deploy plugin)
 All set, you will be able to see the plugin in action!
