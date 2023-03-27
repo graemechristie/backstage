@@ -26,6 +26,7 @@ export const EntityPageOctopusDeploy = (props: { defaultLimit?: number }) => {
 
   const { environments, releases, loading, error } = useReleases(
     projectReference.projectId,
+    projectReference.spaceId,
     props.defaultLimit ?? 3,
     projectReference.spaceId,
   );
