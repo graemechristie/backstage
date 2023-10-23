@@ -1,0 +1,67 @@
+{
+  "manifest": {
+    "name": "@backstage/plugin-octopus-deploy",
+    "version": "0.1.2-next.0",
+    "main": "src/index.ts",
+    "types": "src/index.ts",
+    "license": "Apache-2.0",
+    "publishConfig": {
+      "access": "public",
+      "main": "dist/index.esm.js",
+      "types": "dist/index.d.ts"
+    },
+    "backstage": {
+      "role": "frontend-plugin"
+    },
+    "scripts": {
+      "start": "backstage-cli package start",
+      "build": "backstage-cli package build",
+      "lint": "backstage-cli package lint",
+      "test": "backstage-cli package test",
+      "clean": "backstage-cli package clean",
+      "prepack": "backstage-cli package prepack",
+      "postpack": "backstage-cli package postpack"
+    },
+    "dependencies": {
+      "@backstage/catalog-model": "workspace:^",
+      "@backstage/core-components": "workspace:^",
+      "@backstage/core-plugin-api": "workspace:^",
+      "@backstage/plugin-catalog-react": "workspace:^",
+      "@backstage/theme": "workspace:^",
+      "@material-ui/core": "^4.9.13",
+      "@material-ui/icons": "^4.9.1",
+      "@material-ui/lab": "4.0.0-alpha.61",
+      "react-use": "^17.2.4"
+    },
+    "peerDependencies": {
+      "react": "^16.13.1 || ^17.0.0"
+    },
+    "devDependencies": {
+      "@backstage/cli": "workspace:^",
+      "@backstage/core-app-api": "workspace:^",
+      "@backstage/dev-utils": "workspace:^",
+      "@backstage/test-utils": "workspace:^",
+      "@testing-library/jest-dom": "^5.10.1",
+      "@testing-library/react": "^12.1.3",
+      "@testing-library/user-event": "^14.0.0",
+      "@types/node": "*",
+      "cross-fetch": "^3.1.5",
+      "msw": "^1.0.0"
+    },
+    "files": ["dist"],
+    "_registry": "npm",
+    "_loc": "/Users/gchristie/Library/Caches/Yarn/v6/npm-@backstage-plugin-octopus-deploy-0.1.2-next.0-fb2194e2-9e4c-485e-9796-5af9e643d85b-1698031459061/node_modules/@backstage/plugin-octopus-deploy/package.json",
+    "readmeFilename": "README.md",
+    "readme": "# Octopus Deploy Plugin\n\nWelcome to the octopus-deploy plugin!\n\n## Features\n\n- Display the deployment status of the most recent releases for a project in Octopus Deploy straight from the Backstage catalog\n\n## Getting started\n\nThis plugin (currently) uses the Backstage proxy to securely communicate with the Octopus Deploy API.\n\nTo use it, you will need to generate an [API Key](https://octopus.com/docs/octopus-rest-api/how-to-create-an-api-key) within Octopus Deploy.\n\n1. Add the following to your app-config.yaml to enable the proxy:\n\n```\n// app-config.yaml\nproxy:\n  '/octopus-deploy':\n    target: '<your-octopus-server-url>'\n    headers:\n      X-Octopus-ApiKey: ${OCTOPUS_API_KEY}\n```\n\n2. Add the following to `EntityPage.tsx` to display Octopus Releases\n\n```\n// In packages/app/src/components/catalog/EntityPage.tsx\nimport {\n  isOctopusDeployAvailable\n  EntityOctopusDeployContent\n} from '@backstage/plugin-octopus-deploy';\n\nconst cicdContent = (\n    <EntitySwitch>\n      {/* other components... */}\n      <EntitySwitch.Case if={isOctopusDeployAvailable}>\n        <EntityOctopusDeployContent defaultLimit={25} />\n      </EntitySwitch.Case>\n    </EntitySwitch>\n)\n```\n\n3. Add `octopus.com/project-id` and optionally an `octopus.com/space-id` annotation in the catalog descriptor file.\n\nTo obtain a projects ID you will have to query the Octopus API. You can get the space ID from the projects url in the octopus deploy UI. In the future we'll add support for using a projects slug as well.\n\n```\n// catalog-info.yaml\napiVersion: backstage.io/v1alpha1\nkind: Component\nmetadata:\n  # ...\n  annotations:\n    octopus.com/project-id: Projects-102\nspec:\n  type: service\n```\n\nAll set, you will be able to see the plugin in action!\n",
+    "description": "Welcome to the octopus-deploy plugin!"
+  },
+  "artifacts": [],
+  "remote": {
+    "type": "copy",
+    "registry": "npm",
+    "hash": "accc15ad-d7b1-4d25-bc3f-4814c5fed529-1698034207182",
+    "reference": "/Users/gchristie/dev/backstage.idp/src/backstage/plugins/octopus-deploy"
+  },
+  "registry": "npm",
+  "hash": "accc15ad-d7b1-4d25-bc3f-4814c5fed529-1698034207182"
+}

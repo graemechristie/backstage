@@ -15,6 +15,8 @@
  */
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { useReleases } from '../../hooks/useReleases';
+import { useProject } from '../../hooks/useProject';
+import { useConfig } from '../../hooks/useConfig';
 import {
   getProjectIdAnnotationFromEntity,
   getSpaceIdAnnotationFromEntity,
@@ -34,10 +36,16 @@ export const EntityPageOctopusDeploy = (props: { defaultLimit?: number }) => {
     props.defaultLimit ?? 3,
   );
 
+  const projectResult = useProject(projectId, spaceId);
+
+  const configResult = useConfig();
+
   return (
     <ReleaseTable
       environments={environments}
       releases={releases}
+      project={projectResult.project}
+      config={configResult.config}
       loading={loading}
       error={error}
     />
