@@ -17,6 +17,7 @@ import {
   createApiRef,
   DiscoveryApi,
   FetchApi,
+  ConfigApi,
 } from '@backstage/core-plugin-api';
 import { ProjectReference } from '../utils/getAnnotationFromEntity';
 
@@ -50,11 +51,30 @@ export type OctopusDeployment = {
 };
 
 /** @public */
+export type OctopusLinks = {
+  Self: string;
+  Web: string;
+};
+
+/** @public */
+export type OctopusProject = {
+  Name: string;
+  Slug: string;
+  Links: OctopusLinks;
+};
+
+/** @public */
+export type OctopusPluginConfig = {
+  WebUiBaseUrl: string;
+};
+
+/** @public */
 export const octopusDeployApiRef = createApiRef<OctopusDeployApi>({
   id: 'plugin.octopusdeploy.service',
 });
 
 const DEFAULT_PROXY_PATH_BASE = '/octopus-deploy';
+const WEB_UI_BASE_URL_CONFIG_KEY = 'octopusdeploy.webBaseUrl';
 
 /** @public */
 export interface OctopusDeployApi {
@@ -62,19 +82,26 @@ export interface OctopusDeployApi {
     projectReference: ProjectReference;
     releaseHistoryCount: number;
   }): Promise<OctopusProgression>;
+  getProjectInfo(opts: {
+    projectReference: ProjectReference;
+  }): Promise<OctopusProject>;
+  getConfig(): Promise<OctopusPluginConfig>;
 }
 
 /** @public */
 export class OctopusDeployClient implements OctopusDeployApi {
+  private readonly configApi: ConfigApi;
   private readonly discoveryApi: DiscoveryApi;
   private readonly fetchApi: FetchApi;
   private readonly proxyPathBase: string;
 
   constructor(options: {
+    configApi: ConfigApi;
     discoveryApi: DiscoveryApi;
     fetchApi: FetchApi;
     proxyPathBase?: string;
   }) {
+    this.configApi = options.configApi;
     this.discoveryApi = options.discoveryApi;
     this.fetchApi = options.fetchApi;
     this.proxyPathBase = options.proxyPathBase ?? DEFAULT_PROXY_PATH_BASE;
@@ -125,5 +152,50 @@ export class OctopusDeployClient implements OctopusDeployApi {
     return `${proxyUrl}${this.proxyPathBase}/projects/${encodeURIComponent(
       opts.projectReference.projectId,
     )}/progression?${queryParameters}`;
+  }
+
+  async getProjectInfo(opts: {
+    projectReference: ProjectReference;
+  }): Promise<OctopusProject> {
+    const url = await this.getProjectApiUrl(opts);
+    const response = await this.fetchApi.fetch(url);
+
+    let responseJson;
+
+    try {
+      responseJson = await response.json();
+    } catch (e) {
+      responseJson = { releases: [] };
+    }
+
+    if (response.status !== 200) {
+      throw new Error(
+        `Error communicating with Octopus Deploy: ${responseJson?.error?.title || response.statusText
+        }`,
+      );
+    }
+
+    return responseJson;
+  }
+
+  async getConfig(): Promise<OctopusPluginConfig> {
+    return {
+      WebUiBaseUrl: this.configApi.getString(WEB_UI_BASE_URL_CONFIG_KEY),
+    };
+  }
+
+  private async getProjectApiUrl(opts: {
+    projectReference: ProjectReference;
+  }) {
+    const proxyUrl = await this.discoveryApi.getBaseUrl('proxy');
+    if (opts.projectReference.spaceId !== undefined) {
+      return `${proxyUrl}${this.proxyPathBase}/${encodeURIComponent(
+        opts.projectReference.spaceId,
+      )}/projects/${encodeURIComponent(opts.projectReference.projectId)}`;
+    }
+
+    return `${proxyUrl}${this.proxyPathBase}/projects/${encodeURIComponent(
+      opts.projectReference.projectId)}
+    )`;
   }
 }
