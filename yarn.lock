@@ -6325,6 +6325,54 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@backstage/plugin-devops-metrics-backend@workspace:^, @backstage/plugin-devops-metrics-backend@workspace:plugins/devops-metrics-backend":
+  version: 0.0.0-use.local
+  resolution: "@backstage/plugin-devops-metrics-backend@workspace:plugins/devops-metrics-backend"
+  dependencies:
+    "@backstage/backend-common": "workspace:^"
+    "@backstage/cli": "workspace:^"
+    "@backstage/config": "workspace:^"
+    "@backstage/plugin-events-node": "workspace:^"
+    "@types/express": "*"
+    "@types/supertest": ^2.0.8
+    "@types/uuid": ^9.0.7
+    express: ^4.17.1
+    express-promise-router: ^4.1.0
+    knex: ^3.0.0
+    msw: ^1.0.0
+    node-fetch: ^2.6.7
+    supertest: ^6.2.4
+    uuid: ^9.0.1
+    winston: ^3.2.1
+    yn: ^4.0.0
+  languageName: unknown
+  linkType: soft
+
+"@backstage/plugin-devops-metrics@^0.0.0, @backstage/plugin-devops-metrics@workspace:plugins/devops-metrics":
+  version: 0.0.0-use.local
+  resolution: "@backstage/plugin-devops-metrics@workspace:plugins/devops-metrics"
+  dependencies:
+    "@backstage/cli": "workspace:^"
+    "@backstage/core-app-api": "workspace:^"
+    "@backstage/core-components": "workspace:^"
+    "@backstage/core-plugin-api": "workspace:^"
+    "@backstage/dev-utils": "workspace:^"
+    "@backstage/test-utils": "workspace:^"
+    "@backstage/theme": "workspace:^"
+    "@material-ui/core": ^4.9.13
+    "@material-ui/icons": ^4.9.1
+    "@material-ui/lab": ^4.0.0-alpha.61
+    "@testing-library/jest-dom": ^6.0.0
+    "@testing-library/react": ^14.0.0
+    "@testing-library/user-event": ^14.0.0
+    msw: ^1.0.0
+    react-use: ^17.2.4
+  peerDependencies:
+    react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: "*"
+  languageName: unknown
+  linkType: soft
+
 "@backstage/plugin-devtools-backend@workspace:^, @backstage/plugin-devtools-backend@workspace:plugins/devtools-backend":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-devtools-backend@workspace:plugins/devtools-backend"
@@ -19773,6 +19821,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.7":
+  version: 9.0.8
+  resolution: "@types/uuid@npm:9.0.8"
+  checksum: b8c60b7ba8250356b5088302583d1704a4e1a13558d143c549c408bf8920535602ffc12394ede77f8a8083511b023704bc66d1345792714002bfa261b17c5275
+  languageName: node
+  linkType: hard
+
 "@types/vinyl@npm:^2.0.4":
   version: 2.0.6
   resolution: "@types/vinyl@npm:2.0.6"
@@ -27193,6 +27248,7 @@ __metadata:
     "@backstage/plugin-cloudbuild": "workspace:^"
     "@backstage/plugin-code-coverage": "workspace:^"
     "@backstage/plugin-cost-insights": "workspace:^"
+    "@backstage/plugin-devops-metrics": ^0.0.0
     "@backstage/plugin-devtools": "workspace:^"
     "@backstage/plugin-dynatrace": "workspace:^"
     "@backstage/plugin-entity-feedback": "workspace:^"
@@ -27343,6 +27399,7 @@ __metadata:
     "@backstage/plugin-catalog-backend-module-unprocessed": "workspace:^"
     "@backstage/plugin-catalog-node": "workspace:^"
     "@backstage/plugin-code-coverage-backend": "workspace:^"
+    "@backstage/plugin-devops-metrics-backend": "workspace:^"
     "@backstage/plugin-devtools-backend": "workspace:^"
     "@backstage/plugin-entity-feedback-backend": "workspace:^"
     "@backstage/plugin-events-backend": "workspace:^"
@@ -44389,7 +44446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.0":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:
