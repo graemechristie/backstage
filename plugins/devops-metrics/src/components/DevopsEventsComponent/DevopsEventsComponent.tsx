@@ -29,13 +29,13 @@ import { DevopsEventsListComponent } from '../DevopsEventsListComponent';
 export const DevopsEventsComponent = () => (
   <Page themeId="tool">
     <Header
-      title="Devops Events"
-      subtitle="List of Events received by the Backstage Devops Metrics System"
+      title="Devops Metrics"
+      subtitle="Collects and calculate DORA and other Devops Metrics based on Events received from external systems."
     >
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
     <Content>
-      <ContentHeader title="Bunnings Events">
+      <ContentHeader title="Devops Events">
         <SupportButton>
           Lists Events received by the Backstage Devops Metrics System.
         </SupportButton>

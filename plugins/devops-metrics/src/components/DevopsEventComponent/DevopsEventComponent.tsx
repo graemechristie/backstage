@@ -40,11 +40,11 @@ export const DevopsEventComponent = () => {
   const { value, loading, error } = useAsync(async (): Promise<DevopsEvent> => {
     const backendBaseUrl = config.getString('backend.baseUrl');
     const backendApiEndPoint = `${backendBaseUrl}/api/devops-metrics/events/${eventId}`;
-    const bunningsEventData = await fetch(backendApiEndPoint)
+    const devopsEventData = await fetch(backendApiEndPoint)
       .then(res => (res.ok ? res : Promise.reject(res)))
       .then(res => res.json());
 
-    return bunningsEventData;
+    return devopsEventData;
   }, []);
 
   if (loading) {

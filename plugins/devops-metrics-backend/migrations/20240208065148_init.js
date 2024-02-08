@@ -45,7 +45,7 @@ exports.up = async function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function (knex) {
-  await knex.schema.alterTable('bunnings_events', table => {
+  await knex.schema.alterTable('devops_events', table => {
     table.dropIndex([], 'devops_events_index_idx');
     table.dropIndex([], 'devops_events_id_idx');
   });
