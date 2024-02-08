@@ -13,4 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export { ExampleFetchComponent } from './ExampleFetchComponent';
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { DevopsEventsComponent } from './DevopsEventsComponent';
+import { DevopsEventComponent } from './DevopsEventComponent';
+import { eventContentRouteRef } from '../plugin';
+
+/** @public */
+export const Router = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<DevopsEventsComponent />} />
+      <Route
+        path={`/${eventContentRouteRef.path}`}
+        element={<DevopsEventComponent />}
+      />
+    </Routes>
+  );
+};

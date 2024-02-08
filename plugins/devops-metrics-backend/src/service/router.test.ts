@@ -13,11 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getVoidLogger } from '@backstage/backend-common';
+import {
+  getVoidLogger,
+  PluginDatabaseManager,
+  DatabaseManager,
+} from '@backstage/backend-common';
+import { EventBroker, EventParams } from '@backstage/plugin-events-node';
+import { ConfigReader } from '@backstage/config';
 import express from 'express';
 import request from 'supertest';
 
 import { createRouter } from './router';
+
+function createDatabase(): PluginDatabaseManager {
+  return DatabaseManager.fromConfig(
+    new ConfigReader({
+      backend: {
+        database: {
+          client: 'better-sqlite3',
+          connection: ':memory:',
+        },
+      },
+    }),
+  ).forPlugin('bunnings-events');
+}
+
+function createEventBroker(): EventBroker {
+  const published: EventParams[] = [];
+  return {
+    publish: (params: EventParams) => {
+      published.push(params);
+    },
+    subscribe: _ => {},
+  } as EventBroker;
+}
 
 describe('createRouter', () => {
   let app: express.Express;
@@ -25,6 +54,8 @@ describe('createRouter', () => {
   beforeAll(async () => {
     const router = await createRouter({
       logger: getVoidLogger(),
+      database: createDatabase(),
+      eventBroker: createEventBroker(),
     });
     app = express().use(router);
   });
@@ -33,12 +64,12 @@ describe('createRouter', () => {
     jest.resetAllMocks();
   });
 
-  describe('GET /health', () => {
+  describe('GET /events', () => {
     it('returns ok', async () => {
-      const response = await request(app).get('/health');
+      const response = await request(app).get('/events');
 
       expect(response.status).toEqual(200);
-      expect(response.body).toEqual({ status: 'ok' });
+      expect(response.body).toEqual([]);
     });
   });
 });

@@ -24,28 +24,35 @@ import {
   HeaderLabel,
   SupportButton,
 } from '@backstage/core-components';
-import { ExampleFetchComponent } from '../ExampleFetchComponent';
+import { DevopsEventsListComponent } from '../DevopsEventsListComponent';
 
-export const ExampleComponent = () => (
+export const DevopsEventsComponent = () => (
   <Page themeId="tool">
-    <Header title="Welcome to devops-metrics!" subtitle="Optional subtitle">
-      <HeaderLabel label="Owner" value="Team X" />
+    <Header
+      title="Devops Events"
+      subtitle="List of Events received by the Backstage Devops Metrics System"
+    >
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
     <Content>
-      <ContentHeader title="Plugin title">
-        <SupportButton>A description of your plugin goes here.</SupportButton>
+      <ContentHeader title="Bunnings Events">
+        <SupportButton>
+          Lists Events received by the Backstage Devops Metrics System.
+        </SupportButton>
       </ContentHeader>
       <Grid container spacing={3} direction="column">
         <Grid item>
-          <InfoCard title="Information card">
+          <InfoCard>
             <Typography variant="body1">
-              All content should be wrapped in a card like this.
+              These events have been received by the backstage events system and
+              indexed in the backstage backend database. Currently these event
+              are not routed to any external system and are simply stored here,
+              and available to view though this UI.
             </Typography>
           </InfoCard>
         </Grid>
         <Grid item>
-          <ExampleFetchComponent />
+          <DevopsEventsListComponent />
         </Grid>
       </Grid>
     </Content>

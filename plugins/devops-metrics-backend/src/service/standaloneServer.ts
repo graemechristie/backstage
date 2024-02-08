@@ -13,10 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { createServiceBuilder } from '@backstage/backend-common';
+
+// TOD: I'm not sure this works (Ive been running the ful backstage stack to test). @wsoo might be an easy first issue to pick up
+
+import {
+  createServiceBuilder,
+  DatabaseManager,
+} from '@backstage/backend-common';
+import { ConfigReader } from '@backstage/config';
 import { Server } from 'http';
 import { Logger } from 'winston';
 import { createRouter } from './router';
+import { EventBroker, EventParams } from '@backstage/plugin-events-node';
 
 export interface ServerOptions {
   port: number;
@@ -24,18 +32,40 @@ export interface ServerOptions {
   logger: Logger;
 }
 
+function createEventBroker(): EventBroker {
+  const published: EventParams[] = [];
+  return {
+    publish: (params: EventParams) => {
+      published.push(params);
+    },
+  } as EventBroker;
+}
+
 export async function startStandaloneServer(
   options: ServerOptions,
 ): Promise<Server> {
   const logger = options.logger.child({ service: 'devops-metrics-backend' });
   logger.debug('Starting application server...');
+
+  const manager = DatabaseManager.fromConfig(
+    new ConfigReader({
+      backend: {
+        database: { client: 'better-sqlite3', connection: ':memory:' },
+      },
+    }),
+  );
+  const database = manager.forPlugin('devops-metrics');
+  const eventBroker = createEventBroker();
+
   const router = await createRouter({
     logger,
+    database,
+    eventBroker,
   });
 
   let service = createServiceBuilder(module)
     .setPort(options.port)
-    .addRouter('/devops-metrics', router);
+    .addRouter('/bunnings-events', router);
   if (options.enableCors) {
     service = service.enableCors({ origin: 'http://localhost:3000' });
   }

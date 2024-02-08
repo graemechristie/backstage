@@ -16,22 +16,32 @@
 import {
   createPlugin,
   createRoutableExtension,
+  createRouteRef,
+  createSubRouteRef,
 } from '@backstage/core-plugin-api';
 
-import { rootRouteRef } from './routes';
+export const rootRouteRef = createRouteRef({
+  id: 'devops-metrics',
+});
+
+export const eventContentRouteRef = createSubRouteRef({
+  id: 'devops-metrics/event',
+  path: '/event/:eventId',
+  parent: rootRouteRef,
+});
 
 export const devopsMetricsPlugin = createPlugin({
   id: 'devops-metrics',
   routes: {
     root: rootRouteRef,
+    eventContent: eventContentRouteRef,
   },
 });
 
 export const DevopsMetricsPage = devopsMetricsPlugin.provide(
   createRoutableExtension({
-    name: 'DevopsMetricsPage',
-    component: () =>
-      import('./components/ExampleComponent').then(m => m.ExampleComponent),
+    name: 'DevopsEventsPage',
+    component: () => import('./components/Router').then(m => m.Router),
     mountPoint: rootRouteRef,
   }),
 );

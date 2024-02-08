@@ -43,6 +43,7 @@ import auth from './plugins/auth';
 import azureDevOps from './plugins/azure-devops';
 import catalog from './plugins/catalog';
 import codeCoverage from './plugins/codecoverage';
+import devopsMetrics from './plugins/devopsMetrics';
 import entityFeedback from './plugins/entityFeedback';
 import events from './plugins/events';
 import explore from './plugins/explore';
@@ -179,6 +180,9 @@ async function main() {
   const devToolsEnv = useHotMemoize(module, () => createEnv('devtools'));
   const nomadEnv = useHotMemoize(module, () => createEnv('nomad'));
   const signalsEnv = useHotMemoize(module, () => createEnv('signals'));
+  const devopsMetricsEnv = useHotMemoize(module, () =>
+    createEnv('devopsMetrics'),
+  );
 
   const apiRouter = Router();
   apiRouter.use('/catalog', await catalog(catalogEnv));
@@ -206,6 +210,7 @@ async function main() {
   apiRouter.use('/devtools', await devTools(devToolsEnv));
   apiRouter.use('/nomad', await nomad(nomadEnv));
   apiRouter.use('/signals', await signals(signalsEnv));
+  apiRouter.use('/devops-metrics', await devopsMetrics(devopsMetricsEnv));
   apiRouter.use(notFoundHandler());
 
   await lighthouse(lighthouseEnv);
